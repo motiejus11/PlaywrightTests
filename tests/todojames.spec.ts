@@ -47,8 +47,18 @@ test.describe('Todojames Tests', () => {
         // 
         await expect(page.getByText('1 uzduotis').nth(1)).toBeVisible();
 
+        // cy.get('.klase').contains('kazkoks tekstas')...
+        // page.locator('ul.todo-list li', {hasText: '1 uzduotis'})
 
+        //cy.get('ul.todo-list li').contains('1 uzduotis') analogas
+        // page.locator('ul.todo-list li', { hasText: '1 uzduotis' });
+    });
 
+    test('Create new to do', async ({ page }) => {
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        const todoItem = page.locator('ul.todo-list li', { hasText: '1 uzduotis' });
+        await expect(todoItem).toBeVisible();
     });
     
     test('delete item', async ({ page }) => {
@@ -62,5 +72,6 @@ test.describe('Todojames Tests', () => {
     test('count items', async ({ page }) => {
     
     });
+
 
 });
