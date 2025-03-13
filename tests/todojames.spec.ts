@@ -61,16 +61,61 @@ test.describe('Todojames Tests', () => {
         await expect(todoItem).toBeVisible();
     });
     
+    // test('delete item', async ({ page }) => {
+    //     await page.fill('input.new-todo', '1 uzduotis');
+    //     await page.press('input.new-todo', 'Enter');
+
+    //     await page.locator('button.destroy').click({force:true});
+    // });
     test('delete item', async ({ page }) => {
-    
-    });
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        const todoItem = page.locator('ul.todo-list li', {hasText: '1 uzduotis'});
+        await todoItem.hover();
+        await todoItem.locator('button.destroy').click();
+        // notVisible
+        await expect(todoItem).toHaveCount(0);
+      });
     
     test('update item', async ({ page }) => {
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        
+        const todoItem = page.locator('ul.todo-list li', { hasText: '1 uzduotis' });
+        await todoItem.dblclick();
+
+        const editInput = page.locator('input.edit');
+        await editInput.fill('paredagavom');
+        await editInput.press('Enter');
+
+        const editedItem = page.locator('ul.todo-list li', { hasText: 'paredagavom' });
+        await expect(editedItem).toBeVisible();
+
+        
+        // await page.locator('ul.todo-list li', { hasText: '1 uzduotis' }).dblclick();
+
     
     });
     
     test('count items', async ({ page }) => {
-    
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+        await page.fill('input.new-todo', '1 uzduotis');
+        await page.press('input.new-todo', 'Enter');
+
+        //pasirinkom visus ul li kad saraso ilgis turi buti 6
+        const fullList = page.locator('ul.todo-list li');
+
+        // cy.get('ul.todo-list li').should('have.length', 6);
+        await expect(fullList).toHaveCount(6);
     });
 
 
